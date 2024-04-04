@@ -45,6 +45,9 @@ docker run --privileged -v `pwd`/data:/data:ro -v `pwd`/bigdata:/bigdata:ro -v `
 ```
 
 The JupyterHub should be accessible at the public IP through HTTP (https://<IP> won't work!).
+The password is `hugo24pangenome`
+
+Note: see *Issues* below if docker doesn't start.
 
 # Prepare an instance from scratch
 
