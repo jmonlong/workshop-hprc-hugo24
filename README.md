@@ -86,6 +86,16 @@ aws s3 sync s3://hprc-training/hugo24/ .
 rm ~/.aws/config ~/.aws/credentials
 ```
 
+## Download/update the notebooks
+
+To update just the notebooks, assuming the big data or cached Singularity images have not changed, we can just pull the latest version of this repo.
+
+```
+git clone https://github.com/jmonlong/workshop-hprc-hugo24.git
+rm -r data
+cp -r workshop-hprc-hugo24/data .
+```
+
 # Issues
 
 ### Docker problem: `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
