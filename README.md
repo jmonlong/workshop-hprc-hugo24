@@ -126,3 +126,27 @@ docker push quay.io/jmonlong/hprc-hugo2024-jupyterhub
 # Prepare the Singularity cache
 
 *Soon*
+
+# Prepare the sequenceTubeMap server
+
+```
+## clone repo
+git clone https://github.com/vgteam/sequenceTubeMap.git
+## copy data files
+cp tubemap/*gbz tubemap/*gam tubemap/*gai tubemap/*xg sequenceTubeMap/exampleData/internal/
+## copy config file
+cp tubemap/config.json sequenceTubeMap/docker/
+## move to the docker folder to build the image
+cd sequenceTubeMap/docker
+## optional. update the vg version used in Docker file
+## build image
+docker build -t sequencetubemap -f Dockerfile ..
+docker tag sequencetubemap quay.io/jmonlong/sequencetubemap:vg1.55.0_hugo24
+docker push quay.io/jmonlong/sequencetubemap:vg1.55.0_hugo24
+```
+
+Then start an instance and:
+
+```
+docker run -it -p 80:3000 quay.io/jmonlong/sequencetubemap:vg1.55.0_hugo24
+```
