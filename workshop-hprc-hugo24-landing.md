@@ -28,14 +28,15 @@ Navigate to the different pangenomes using the *Data:* menu, then to different c
 ![Screenshot from 2024-04-07 09-47-45](https://github.com/jmonlong/workshop-hprc-hugo24/assets/34357324/5ed0ad54-6bb5-4771-b0e2-e20d51e77ceb)
 
 ## HPRC resources
-- HPRC website: https://humanpangenome.org/
-- All year 1 graphs: https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=pangenomes/freeze/freeze1/​
-- Graphs for Giraffe-DeepVariant: https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=pangenomes/freeze/freeze1/minigraph-cactus/hprc-v1.1-mc-grch38/
+- [HPRC website](https://humanpangenome.org/)
+- [All year 1 graphs](https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=pangenomes/freeze/freeze1/​)
+- [Graphs for Giraffe-DeepVariant](https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=pangenomes/freeze/freeze1/minigraph-cactus/hprc-v1.1-mc-grch38/)
   - We recommend the `hprc-v1.1-mc-grch38` graph for the most recent Giraffe-DeepVariant pipeline
-- vg: https://github.com/vgteam/vg/
-- pggb: https://github.com/pangenome/pggb
-- wfamash: https://github.com/waveygang/wfmash
-- smoothxg: https://github.com/pangenome/smoothxg
-- seqwish: https://github.com/ekg/seqwish
-- TubeMap: https://github.com/vgteam/sequenceTubeMap
-- odgi: https://github.com/pangenome/odgi
+- [vg](https://github.com/vgteam/vg/)
+- [pggb](https://github.com/pangenome/pggb)
+- [wfamash](https://github.com/waveygang/wfmash)
+- [smoothxg](https://github.com/pangenome/smoothxg)
+- [seqwish](https://github.com/ekg/seqwish)
+- [TubeMap](https://github.com/vgteam/sequenceTubeMap)
+- [odgi](https://github.com/pangenome/odgi)
+- [vg explainer videos](https://cglgenomics.sites.ucsc.edu/explainer-videos-for-variation-graphs-vg/?preview=true)
