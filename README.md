@@ -49,23 +49,10 @@ The password is `hugo24pangenome`
 
 Note: see *Issues* below if docker doesn't start.
 
-# Prepare an instance from scratch
-
-## Minimal installation
+To restart the JupyterHub:
 
 ```
-## install docker, maybe not the best way but works
-sudo apt update
-sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable"
-sudo apt update
-sudo apt install -y docker-ce
-sudo usermod -aG docker ${USER}
-sudo su - ${USER}
-
-## install screen and AWS CLI
-sudo apt install -y awscli screen
+docker rm jupyterhub
 ```
 
 ## Download/update the data
@@ -95,8 +82,27 @@ To update just the notebooks, assuming the big data or cached Singularity images
 
 ```
 git clone https://github.com/jmonlong/workshop-hprc-hugo24.git
-rm -r data
+rm -rf data
 cp -r workshop-hprc-hugo24/data .
+```
+
+# Prepare an instance from scratch
+
+## Minimal installation
+
+```
+## install docker, maybe not the best way but works
+sudo apt update
+sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable"
+sudo apt update
+sudo apt install -y docker-ce
+sudo usermod -aG docker ${USER}
+sudo su - ${USER}
+
+## install screen and AWS CLI
+sudo apt install -y awscli screen
 ```
 
 # Issues
@@ -125,7 +131,40 @@ docker push quay.io/jmonlong/hprc-hugo2024-jupyterhub
 
 # Prepare the Singularity cache
 
-*Soon*
+We can download the singularity images in advanced. It avoids having all the participants downloading them all at once. We save the "cache" in a `singularity_cache` directory.
+
+To fill the cache, we can run each pipeline once using the prepared container.
+
+Start the container
+
+```
+docker run -it --privileged -u `id -u $USER` -v `pwd`/bigdata:/bigdata -v `pwd`/data:/data -v `pwd`/singularity_cache:/singularity_cache quay.io/jmonlong/hprc-hugo2024-jupyterhub /bin/bash
+
+```
+
+Within that container:
+
+```
+cd /data/giraffe-deepvariant-rhce/
+git clone -b hapsampdv https://github.com/vgteam/vg_snakemake.git
+snakemake --singularity-prefix /singularity_cache --use-singularity --snakefile vg_snakemake/workflow/Snakefile --configfile smk.config.rhce.yaml --cores 2 all -n
+
+cd /data/pggb
+NXF_HOME=/data/pggb NXF_SINGULARITY_CACHEDIR=/singularity_cache nextflow run nf-core/pangenome -r 1.1.2 --input /bigdata/chrY.hprc.pan4.fa.gz --outdir chrY.hprc.pan4_out --n_haplotypes 4 --wfmash_map_pct_id 98 --wfmash_segment_length 10k --wfmash_n_mappings 3 --seqwish_min_match_length 311 --smoothxg_poa_length \"1000,\" -c hprc_hugo24.config,chrY.hprc.pan4.config --wfmash_exclude_delim '#' -profile singularity --wfmash_chunks 4
+
+```
+
+Exit the container and sync the S3 bucket
+
+```
+aws s3 sync singularity_cache s3://hprc-training/hugo24/singularity_cache --dryrun
+```
+
+Eventually, clean up:
+
+```
+rm -rf data/giraffe-deepvariant-rhce/vg_snakemake  data/giraffe-deepvariant-rhce/results /data/pggb/chrY.hprc.pan4_out /data/pggb/work /data/pggb/secrets /data/pggb/assets /data/pggb/capsule /data/pggb/framework /data/pggb/plugins /data/pggb/tmp
+```
 
 # Prepare the sequenceTubeMap server
 
