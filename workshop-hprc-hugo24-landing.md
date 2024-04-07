@@ -9,6 +9,8 @@
 
 ## [Click here to reach the JupyterHub Server]()
 
+*Soon*
+
 Login with 
 
 - username: pick one (unique to you, not just `andrea`)
@@ -19,6 +21,12 @@ This will create a workspace where you can access the notebooks and data.
 ## [Click here to access the sequenceTubeMap server for this workshop](http://courtyard.gi.ucsc.edu:2024)
 
 Navigate to the different pangenomes using the *Data:* menu, then to different coordinates with the *Region:* field.
+
+To manipulate the tubemap, you can:
+
+- Hold-click to move horizontally
+- Scroll to zoom in/out
+- Change some visualization settings in the configuration panel below the graph.
 
 ## Jupyter notebook cheatsheet
 ![Screenshot from 2024-04-07 09-50-55](https://github.com/jmonlong/workshop-hprc-hugo24/assets/34357324/b893b51a-8cc1-44fa-af82-97339f42f9c9)

@@ -33,15 +33,20 @@ ssh -i ~/.ssh/jmonlong-hprc-training.pem ubuntu@$IP
 
 ## Optional: update data
 
-To be used when starting an instance from scratch, or if starting from an image/snapshot but the data has changed.
-See below at [Download/update the data](#Download-update-the-data)
+When starting from an image, the instance should have all the necessary data.
+
+If they have changed, or when starting an instance from scratch:
+
+- [Download/update the data](#downloadupdate-the-data)
+- [Download/update the notebooks](#downloadupdate-the-notebooks)
+- [Import Docker image with big files](#Import-Docker-image-with-big-files)
 
 ## Launch JupyterHub from a screen
 
 ```
 screen -S hub
 
-docker run --privileged -v `pwd`/data:/data:ro -v `pwd`/bigdata:/bigdata:ro -v `pwd`/singularity_cache:/singularity_cache:ro -p 80:8000 --name jupyterhub quay.io/jmonlong/hprc-hugo2024-jupyterhub jupyterhub
+docker run --privileged -v `pwd`/data:/data:ro -v `pwd`/singularity_cache:/singularity_cache:ro -p 80:8000 --name jupyterhub jh jupyterhub
 ```
 
 The JupyterHub should be accessible at the public IP through HTTP (https://<IP> won't work!).
@@ -84,6 +89,33 @@ To update just the notebooks, assuming the big data or cached Singularity images
 git clone https://github.com/jmonlong/workshop-hprc-hugo24.git
 rm -rf data
 cp -r workshop-hprc-hugo24/data .
+```
+
+## Prepare Docker image containing the big files
+
+When a directory is mounted/bound in the docker command, if behaves like a separate disk. 
+Hence, accessing/moving large files can be very slow. 
+The PGGB part uses files that are several Gbs so we instead include them in the Docker image.
+This is not great practice so to avoid uploading this extra large image to a public repository, we save it as a TAR file.
+This TAR file can be saved like a typical large file, e.g. in S3, and downloaded and imported when needed.
+
+```
+docker build -f workshop-hprc-hugo24/Dockerfile_withdata -t jh .
+docker save -o hprc-hugo2024-jupyterhub-withdata.tar jh
+aws s3 cp hprc-hugo2024-jupyterhub-withdata.tar s3://hprc-training/hugo24/
+```
+
+## Import Docker image with big files
+
+```
+docker load -i hprc-hugo2024-jupyterhub-withdata.tar
+```
+
+The tar file should be available after the "sync" command from above. 
+Otherwise, to download that file specifically:
+
+```
+aws s3 cp s3://hprc-training/hugo24/hprc-hugo2024-jupyterhub-withdata.tar .
 ```
 
 # Prepare an instance from scratch

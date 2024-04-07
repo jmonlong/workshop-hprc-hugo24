@@ -1,0 +1,3 @@
+FROM quay.io/jmonlong/hprc-hugo2024-jupyterhub
+
+COPY bigdata /bigdata
