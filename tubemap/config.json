@@ -4,7 +4,8 @@
       {
           "name": "RHCE-RHD region",
           "tracks": [
-              {"trackFile": "exampleData/internal/hprc-v1.0-mc-grch38.chr1_25053647_25685365.gbz", "trackType": "graph", "trackColorSettings": {"mainPalette": "greys", "auxPalette": "ygreys"}},
+              {"trackFile": "exampleData/internal/hprc-v1.0-mc-grch38.chr1_25053647_25685365.gbz", "trackType": "graph"},
+              {"trackFile": "exampleData/internal/hprc-v1.0-mc-grch38.chr1_25053647_25685365.gbz", "trackType": "haplotype"},
               {"trackFile": "exampleData/internal/HG002.hprc-v1.0-mc-grch38.chr1_25053647_25685365.sorted.gam", "trackType": "read"}
           ],
           "region": "GRCh38.chr1:300000+100",
@@ -13,7 +14,8 @@
       {
           "name": "SV genotyping - construct",
           "tracks": [
-              {"trackFile": "exampleData/internal/svgeno_7_158876691_158884496.construct.xg", "trackType": "graph", "trackColorSettings": {"mainPalette": "greys", "auxPalette": "ygreys"}},
+              {"trackFile": "exampleData/internal/svgeno_7_158876691_158884496.construct.gbz", "trackType": "graph"},
+              {"trackFile": "exampleData/internal/svgeno_7_158876691_158884496.construct.gbz", "trackType": "haplotype"},
               {"trackFile": "exampleData/internal/svgeno_7_158876691_158884496.construct.HG002.sorted.gam", "trackType": "read"}
           ],
           "region": "ref:4800+10",
@@ -22,7 +24,7 @@
       {
           "name": "SV genotyping - MSA",
           "tracks": [
-              {"trackFile": "exampleData/internal/svgeno_7_158876691_158884496.msa.gbz", "trackType": "graph", "trackColorSettings": {"mainPalette": "greys", "auxPalette": "ygreys"}},
+              {"trackFile": "exampleData/internal/svgeno_7_158876691_158884496.msa.gbz", "trackType": "graph", "trackColorSettings": {"mainPalette": "greys", "auxPalette": "plainColors"}},
               {"trackFile": "exampleData/internal/svgeno_7_158876691_158884496.msa.HG002.sorted.gam", "trackType": "read"}
           ],
           "region": "ref:4800+10",

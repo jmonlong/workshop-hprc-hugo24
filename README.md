@@ -129,6 +129,9 @@ docker push quay.io/jmonlong/hprc-hugo2024-jupyterhub
 
 # Prepare the sequenceTubeMap server
 
+
+## Docker image 
+
 ```
 ## clone repo
 git clone https://github.com/vgteam/sequenceTubeMap.git
@@ -145,8 +148,23 @@ docker tag sequencetubemap quay.io/jmonlong/sequencetubemap:vg1.55.0_hugo24
 docker push quay.io/jmonlong/sequencetubemap:vg1.55.0_hugo24
 ```
 
-Then start an instance and:
+## Option 1: on an instance
 
 ```
 docker run -it -p 80:3000 quay.io/jmonlong/sequencetubemap:vg1.55.0_hugo24
 ```
+
+Access through the public IP (if HTTP access was enabled when launching it).
+
+## Option 2: on Courtyard
+
+This sequenceTubeMap and the small pangenomes used in the workshop won't use much ressources. 
+We could serve it on Courtyard (UCSC machine with public access).
+
+```
+docker run -it -p 2024:3000 quay.io/jmonlong/sequencetubemap:vg1.55.0_hugo24
+```
+
+Then access at http://courtyard.gi.ucsc.edu:2024
+
+
