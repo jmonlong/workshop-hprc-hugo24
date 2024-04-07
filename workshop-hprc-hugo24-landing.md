@@ -39,7 +39,7 @@ To manipulate the tubemap, you can:
 - [HPRC website](https://humanpangenome.org/)
 - [All year 1 graphs](https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=pangenomes/freeze/freeze1/​)
 - [Graphs for Giraffe-DeepVariant](https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=pangenomes/freeze/freeze1/minigraph-cactus/hprc-v1.1-mc-grch38/)
-  - We recommend the `hprc-v1.1-mc-grch38` graph for the most recent Giraffe-DeepVariant pipeline
+  - We recommend the `hprc-v1.1-mc-grch38` graph for the current Giraffe-DeepVariant pipeline
 - [vg](https://github.com/vgteam/vg/)
 - [pggb](https://github.com/pangenome/pggb)
 - [wfamash](https://github.com/waveygang/wfmash)
