@@ -255,3 +255,6 @@ screen -S tubemap
 docker run -it -p 80:3000 quay.io/jmonlong/sequencetubemap:vg1.55.0_hugo24
 ```
 
+## TODO 
+
+- Add the results/plots/notebooks with output on this repo for people to find them afterwards
