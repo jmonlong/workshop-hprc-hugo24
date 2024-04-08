@@ -12,6 +12,7 @@ Notes to prepare or use the JupyterHub server for the HPRC Pangenome workshop at
     - t2.micro for testing
     - c5.9xlarge for testing with a few users
     - u-6tb1.112xlarge for the workshop
+- Pick enough disk space, for example 5 Tb (100Gb * 50 participants).
 - pick your personal keypair
 - Allow HTTPS and HTTP traffic from the internet
 
@@ -197,6 +198,15 @@ Eventually, clean up:
 ```
 rm -rf data/giraffe-deepvariant-rhce/vg_snakemake  data/giraffe-deepvariant-rhce/results /data/pggb/chrY.hprc.pan4_out /data/pggb/work /data/pggb/secrets /data/pggb/assets /data/pggb/capsule /data/pggb/framework /data/pggb/plugins /data/pggb/tmp
 ```
+
+# Monitor usage on a big instance
+
+A few tricks to keep watch:
+
+- Change htop's config to show the total CPU used instead of each CPU's usage
+    - Edit `~/.config/htop/htoprc`
+    - Replace `left_meters=AllCPUs Memory Swap` by ``left_meters=CPU Memory Swap` for example
+- Connect to the JupyterHub using the admin username and go to `http://<IP>/hub/admin` to manage users.
 
 # Prepare the sequenceTubeMap server
 

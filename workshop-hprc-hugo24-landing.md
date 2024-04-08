@@ -1,11 +1,10 @@
 # HPRC Workshop at HUGO 2024
 
-- https://www.hugo-hgm2024.org/
-- This landing page is at https://tinyurl.com/PangenomeHugo24
+## https://tinyurl.com/PangenomeHugo24
 
-## [Slides]()
+## [Slides](https://docs.google.com/presentation/d/1HijsejJkJ8x_pEStdOHdVnI-DzNQmhUk9I6MF20Ppsk/edit?usp=sharing)
 
-*Soon*
+[PDF](HUGO-Rome 2024_HPRC-Slides.pdf)
 
 ## [Click here to reach the JupyterHub Server]()
 
