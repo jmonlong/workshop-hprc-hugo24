@@ -9,7 +9,7 @@ See `HUGO-Rome 2024_HPRC-Slides.pdf` for the PDF version.
 
 ## [Click here to reach the JupyterHub Server]()
 
-*Soon*
+*Refresh this page if the link is down.*
 
 Login with 
 
@@ -18,7 +18,9 @@ Login with
 
 This will create a workspace where you can access the notebooks and data.
 
-## [Click here to access the sequenceTubeMap server for this workshop](http://courtyard.gi.ucsc.edu:2024)
+## [Click here to access the sequenceTubeMap server for this workshop](http://54.212.243.195/)
+
+*Refresh this page if the link is down.*
 
 Navigate to the different pangenomes using the *Data:* menu, then to different coordinates with the *Region:* field.
 
