@@ -248,4 +248,10 @@ docker run -it -p 2024:3000 quay.io/jmonlong/sequencetubemap:vg1.55.0_hugo24
 
 Then access at http://courtyard.gi.ucsc.edu:2024
 
+Or on an instance:
+
+```
+screen -S tubemap
+docker run -it -p 80:3000 quay.io/jmonlong/sequencetubemap:vg1.55.0_hugo24
+```
 

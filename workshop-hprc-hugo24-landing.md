@@ -7,7 +7,7 @@
 
 See `HUGO-Rome 2024_HPRC-Slides.pdf` for the PDF version.
 
-## [Click here to reach the JupyterHub Server]()
+## [Click here to reach the JupyterHub Server](http://54.201.223.87/)
 
 *Refresh this page if the link is down.*
 
