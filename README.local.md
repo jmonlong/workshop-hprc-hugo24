@@ -1,6 +1,6 @@
 # Notebooks with output
 
-You can find the notebooks with the outputs/plots in the same `notebooks_with_output` folder.
+You can find the notebooks with the outputs/plots in the [`notebooks_with_output` folder](notebooks_with_output).
 
 # Run the workshop locally on a local machine
 
@@ -17,17 +17,15 @@ If you don't already have docker on your machine, find out how to install it at 
 
 Two options. 
 
-Pick option 1 if you're planning on running the PGGB part just once or twice, or if you want to play with the Giraffe parts.
-This is **recommended** in most cases.
-
-Pick option 2 if you're planning on running the PGGB part several times.
+1. Option 1 if you're planning on running the PGGB part just once or twice, or if you want to play with the Giraffe parts. This is **recommended** in most cases.
+1. Option 2 if you're planning on running the PGGB part several times. It takes more time to setup but avoids re-downloading data every time.
 
 ## Option 1: Download the large files within the notebook
 
-For the PGGB part, large files are used. 
-They can be downloaded using commands in the notebook.
+Large files are used for the PGGB part.
+They can be downloaded using commands (might be commented) in the notebook.
 
-Run this command from the same directory in the repo where this README file is:
+Run this command from the root of this repo (i.e. the directory where this README file is):
 
 ```
 docker run --privileged -v `pwd`/data:/data:ro -p 80:8000 --name jupyterhub quay.io/jmonlong/hprc-hugo2024-jupyterhub jupyterhub
@@ -40,7 +38,7 @@ Note: there is no Singularity cache either, so the Nextflow or Snakemake workflo
 ## Option 2: Use a Docker image with the large files
 
 If you don't want to download the large files every time, i.e. you want to run the PGGB part several times, you can use an image with the large files included. 
-The docker image was deposited on Zenodo at **???**.
+The docker image was deposited on Zenodo at [https://zenodo.org/records/10948633](https://zenodo.org/records/10948633).
 
 To pull the image, either download the TAR file at https://zenodo.org/records/10948633 and run: 
 
@@ -55,7 +53,7 @@ curl https://zenodo.org/records/10948633/files/hprc-hugo2024-jupyterhub-withdata
 ```
 
 Once this is done you should have a new docker image called `hprc-hugo2024-jupyterhub-withdata`.
-Hence, to start the server, run this command from the same directory in the repo where this README file is:
+Hence, to start the server, run this command from the root of this repo (i.e. the directory where this README file is):
 
 ```
 docker run --privileged -v `pwd`/data:/data:ro -p 80:8000 --name jupyterhub hprc-hugo2024-jupyterhub-withdata
