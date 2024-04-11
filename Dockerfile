@@ -145,7 +145,7 @@ RUN python3 -m pip install datrie pulp==2.7.0 pandas scipy seaborn scikit-learn
 
 RUN python3 -m pip install notebook snakemake cyvcf2
 
-RUN conda install -c conda-forge jupyterhub
+# RUN conda install -c conda-forge jupyter jupyterhub
 
 # Create a demo user
 WORKDIR /srv/jupyterhub

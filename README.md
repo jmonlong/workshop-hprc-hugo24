@@ -1,6 +1,10 @@
 Notes to prepare or use the JupyterHub server for the HPRC Pangenome workshop at HUGO 2024.
 
-# Launch an prepared instance
+To find out how to **run it locally on your computer** see [README.local.md](README.local.md).
+
+To see what the **notebooks with the outputs/plots**, go to the [`notebooks_with_output` folder](notebooks_with_output).
+
+# Launch a prepared instance
 
 ## Launch on EC2
 
@@ -61,6 +65,57 @@ To restart the JupyterHub:
 docker rm jupyterhub
 ```
 
+# Prepare the Docker image
+
+```
+docker build -t jmonlong-jupyterhub .
+
+## test locally
+docker run --privileged -v `pwd`/data:/data:ro -v `pwd`/bigdata:/bigdata:ro -v `pwd`/singularity_cache:/singularity_cache:ro -p 80:8000 --name jupyterhub jmonlong-jupyterhub jupyterhub
+docker rm jupyterhub
+
+## push to quay.io
+docker tag jmonlong-jupyterhub quay.io/jmonlong/hprc-hugo2024-jupyterhub
+docker push quay.io/jmonlong/hprc-hugo2024-jupyterhub
+```
+
+## Prepare Docker image containing the big files
+
+When a directory is mounted/bound in the docker command, if behaves like a separate disk. 
+Hence, accessing/moving large files can be very slow. 
+The PGGB part uses files that are several Gbs so we instead include them in the Docker image.
+This is not great practice so to avoid uploading this extra large image to a public repository, we save it as a TAR file.
+This TAR file can be saved like a typical large file, e.g. in S3, and downloaded and imported when needed.
+
+```
+docker build -f workshop-hprc-hugo24/Dockerfile_withdata -t hprc-hugo2024-jupyterhub-withdata .
+docker save -o hprc-hugo2024-jupyterhub-withdata.tar hprc-hugo2024-jupyterhub-withdata
+aws s3 cp hprc-hugo2024-jupyterhub-withdata.tar s3://hprc-training/hugo24/
+```
+
+### Upload the large image to Zenodo
+
+I created a Zenodo draft upload and uploaded the TAR file using https://github.com/jhpoelen/zenodo-upload
+
+# Prepare an instance from scratch
+
+## Minimal installation
+
+```
+## install docker, maybe not the best way but works
+sudo apt update
+sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable"
+sudo apt update
+sudo apt install -y docker-ce
+sudo usermod -aG docker ${USER}
+sudo su - ${USER}
+
+## install screen and AWS CLI
+sudo apt install -y awscli screen
+```
+
 ## Download/update the data
 
 To download the files from S3, I couldn't find a better way than copying my local credentials to the instance...
@@ -92,20 +147,6 @@ rm -rf data
 cp -r workshop-hprc-hugo24/data .
 ```
 
-## Prepare Docker image containing the big files
-
-When a directory is mounted/bound in the docker command, if behaves like a separate disk. 
-Hence, accessing/moving large files can be very slow. 
-The PGGB part uses files that are several Gbs so we instead include them in the Docker image.
-This is not great practice so to avoid uploading this extra large image to a public repository, we save it as a TAR file.
-This TAR file can be saved like a typical large file, e.g. in S3, and downloaded and imported when needed.
-
-```
-docker build -f workshop-hprc-hugo24/Dockerfile_withdata -t jh .
-docker save -o hprc-hugo2024-jupyterhub-withdata.tar jh
-aws s3 cp hprc-hugo2024-jupyterhub-withdata.tar s3://hprc-training/hugo24/
-```
-
 ## Import Docker image with big files
 
 ```
@@ -119,49 +160,6 @@ Otherwise, to download that file specifically:
 aws s3 cp s3://hprc-training/hugo24/hprc-hugo2024-jupyterhub-withdata.tar .
 ```
 
-# Prepare an instance from scratch
-
-## Minimal installation
-
-```
-## install docker, maybe not the best way but works
-sudo apt update
-sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable"
-sudo apt update
-sudo apt install -y docker-ce
-sudo usermod -aG docker ${USER}
-sudo su - ${USER}
-
-## install screen and AWS CLI
-sudo apt install -y awscli screen
-```
-
-# Issues
-
-### Docker problem: `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
-
-Docker sometimes bug. One way to fix, quick reinstall:
-
-```
-sudo apt install -y docker-ce
-```
-
-# Prepare the Docker image
-
-```
-docker build -t jmonlong-jupyterhub .
-
-## test locally
-docker run --privileged -v `pwd`/data:/data:ro -v `pwd`/bigdata:/bigdata:ro -v `pwd`/singularity_cache:/singularity_cache:ro -p 80:8000 --name jupyterhub jmonlong-jupyterhub jupyterhub
-docker rm jupyterhub
-
-## push to quay.io
-docker tag jmonlong-jupyterhub quay.io/jmonlong/hprc-hugo2024-jupyterhub
-docker push quay.io/jmonlong/hprc-hugo2024-jupyterhub
-```
-
 # Prepare the Singularity cache
 
 We can download the singularity images in advanced. It avoids having all the participants downloading them all at once. We save the "cache" in a `singularity_cache` directory.
@@ -172,7 +170,6 @@ Start the container
 
 ```
 docker run -it --privileged -u `id -u $USER` -v `pwd`/bigdata:/bigdata -v `pwd`/data:/data -v `pwd`/singularity_cache:/singularity_cache quay.io/jmonlong/hprc-hugo2024-jupyterhub /bin/bash
-
 ```
 
 Within that container:
@@ -199,6 +196,16 @@ Eventually, clean up:
 rm -rf data/giraffe-deepvariant-rhce/vg_snakemake  data/giraffe-deepvariant-rhce/results /data/pggb/chrY.hprc.pan4_out /data/pggb/work /data/pggb/secrets /data/pggb/assets /data/pggb/capsule /data/pggb/framework /data/pggb/plugins /data/pggb/tmp
 ```
 
+# Issues
+
+### Docker problem: `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
+
+Docker sometimes bug. One way to fix, quick reinstall:
+
+```
+sudo apt install -y docker-ce
+```
+
 # Monitor usage on a big instance
 
 A few tricks to keep watch:
@@ -209,7 +216,6 @@ A few tricks to keep watch:
 - Connect to the JupyterHub using the admin username and go to `http://<IP>/hub/admin` to manage users.
 
 # Prepare the sequenceTubeMap server
-
 
 ## Docker image 
 
@@ -231,7 +237,12 @@ docker push quay.io/jmonlong/sequencetubemap:vg1.55.0_hugo24
 
 ## Option 1: on an instance
 
+Launch an instance with docker installed. 
+For example, the same image that was prepared for the JupyterHub server.
+Then: 
+
 ```
+screen -S tubemap
 docker run -it -p 80:3000 quay.io/jmonlong/sequencetubemap:vg1.55.0_hugo24
 ```
 
@@ -243,17 +254,11 @@ This sequenceTubeMap and the small pangenomes used in the workshop won't use muc
 We could serve it on Courtyard (UCSC machine with public access).
 
 ```
+screen -S tubemap
 docker run -it -p 2024:3000 quay.io/jmonlong/sequencetubemap:vg1.55.0_hugo24
 ```
 
 Then access at http://courtyard.gi.ucsc.edu:2024
-
-Or on an instance:
-
-```
-screen -S tubemap
-docker run -it -p 80:3000 quay.io/jmonlong/sequencetubemap:vg1.55.0_hugo24
-```
 
 ## TODO 
 

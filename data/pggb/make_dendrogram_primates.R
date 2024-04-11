@@ -18,7 +18,7 @@ jaccard_dist_df <- sparse_matrix_df %>%
 jaccard_hc <- as.dist(jaccard_dist_df) %>% hclust()
 
 # Open a pdf device with the specified width and height
-pdf(file = "dendrogram.haplotypes.pdf", width = 5, height = 6)
+png(file = "dendrogram.haplotypes.png", width = 500, height = 600)
 
 # Plot the dendrogram
 plot(
